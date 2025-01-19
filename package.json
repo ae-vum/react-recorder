@@ -1,0 +1,38 @@
+{
+  "name": "react-recorder",
+  "version": "0.1.0",
+  "description": "A React hook for recording audio using the browser's MediaRecorder API.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bunx tsup",
+    "dev": "bunx tsup --watch",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "recorder",
+    "typescript"
+  ],
+  "author": "Aevum",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "typescript": "^5.3.3",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aevum/react-recorder"
+  }
+}
