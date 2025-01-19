@@ -1,5 +1,5 @@
 {
-  "name": "react-recorder",
+  "name": "@aevum/react-recorder",
   "version": "0.1.0",
   "description": "A React hook for recording audio using the browser's MediaRecorder API.",
   "main": "dist/index.cjs",
@@ -33,6 +33,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aevum/react-recorder"
+    "url": "https://github.com/ae-vum/react-recorder"
   }
 }
