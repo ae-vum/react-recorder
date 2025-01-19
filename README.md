@@ -5,14 +5,14 @@ A React hook for recording audio using the browser's MediaRecorder API.
 ## Installation
 
 ```bash
-npm install react-recorder
+npm install @aevum/react-recorder
 ```
 
 ## Usage
 
 ```jsx
 import React from 'react';
-import { useRecorder } from 'react-recorder';
+import { useRecorder } from '@aevum/react-recorder';
 
 function AudioRecorder() {
   const {
