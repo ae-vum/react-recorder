@@ -16,6 +16,7 @@
     "dist"
   ],
   "scripts": {
+    "publish": "npm version patch && npm publish",
     "build": "bunx tsup",
     "dev": "bunx tsup --watch",
     "prepublishOnly": "bun run build"
