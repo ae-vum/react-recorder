@@ -30,6 +30,7 @@ function AudioRecorder() {
     onStart: () => console.log('Recording started'),
     onStop: (blob) => console.log('Recording stopped', blob),
     onError: (err) => console.error('Recording error', err),
+    onData: (data) => console.log('Data available', data),
   });
 
   const handleDownload = () => {
@@ -90,6 +91,7 @@ A React hook that provides functionality for recording audio.
 -   `onStart`: `() => void` (optional) - Callback function called when recording starts.
 -   `onStop`: `(blob: Blob) => void` (optional) - Callback function called when recording stops, with the recorded audio blob as an argument.
 -   `onError`: `(error: Error) => void` (optional) - Callback function called when an error occurs during recording.
+-   `onData`: `(data: Blob) => void` (optional) - Callback function called when data is available during recording.
 
 #### Returns
 
@@ -107,4 +109,3 @@ A React hook that provides functionality for recording audio.
 ## License
 
 MIT
-
