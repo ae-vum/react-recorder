@@ -1,14 +1,14 @@
 {
   "name": "@aevum/react-recorder",
-  "version": "0.1.4",
+  "version": "0.1.2",
   "description": "A React hook for recording audio using the browser's MediaRecorder API.",
-  "main": "dist/index.cjs",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
