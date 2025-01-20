@@ -6,6 +6,7 @@ type UseRecorderOptions = {
     onStart?: () => void;
     onStop?: (blob: Blob) => void;
     onError?: (error: Error) => void;
+    onData?: (data: Blob) => void;
 };
 
 type UseRecorderResult = {
@@ -27,6 +28,7 @@ const useRecorder = ({
     onStart,
     onStop,
     onError,
+    onData,
 }: UseRecorderOptions = {}): UseRecorderResult => {
     const [isRecording, setIsRecording] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -58,6 +60,7 @@ const useRecorder = ({
             mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
                     chunksRef.current.push(event.data);
+                    onData?.(event.data);
                 }
             };
 
