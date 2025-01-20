@@ -1,6 +1,6 @@
 {
   "name": "@aevum/react-recorder",
-  "version": "0.1.10",
+  "version": "0.1.5",
   "description": "A React hook for recording audio using the browser's MediaRecorder API.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,6 @@
     "dist"
   ],
   "scripts": {
-    "publish": "npm version patch && npm publish",
     "build": "bunx tsup",
     "dev": "bunx tsup --watch",
     "prepublishOnly": "bun run build"
