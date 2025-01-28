@@ -6,7 +6,6 @@ type UseAudioAnalyzerOptions = {
     smoothingTimeConstant?: number;
     onSilenceDetected?: () => void;
     onSoundDetected?: () => void;
-    onChunk?: (chunk: Blob) => void;
 };
 
 const useAudioAnalyzer = ({
@@ -15,17 +14,12 @@ const useAudioAnalyzer = ({
     smoothingTimeConstant = 0.3,
     onSilenceDetected,
     onSoundDetected,
-    onChunk,
 }: UseAudioAnalyzerOptions = {}) => {
     const audioContextRef = useRef<AudioContext | null>(null);
     const analyserRef = useRef<AnalyserNode | null>(null);
     const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
     const silenceTimeoutRef = useRef<NodeJS.Timer | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-
-    const handleDataAvailable = useCallback((data: Blob) => {
-        onChunk?.(data);
-    }, [onChunk]);
 
     const detectSilence = useCallback(() => {
         if (!analyserRef.current || !isAnalyzing) return;
@@ -59,19 +53,30 @@ const useAudioAnalyzer = ({
         }
     }, [silenceThreshold, silenceTimeout, isAnalyzing, onSilenceDetected, onSoundDetected]);
 
-    const handleStart = useCallback(async (stream: MediaStream) => {
+    const handleStart = useCallback(() => {
         audioContextRef.current = new AudioContext();
         analyserRef.current = audioContextRef.current.createAnalyser();
-        sourceRef.current = audioContextRef.current.createMediaStreamSource(stream);
 
         analyserRef.current.fftSize = 2048;
         analyserRef.current.minDecibels = -70;
         analyserRef.current.maxDecibels = -10;
         analyserRef.current.smoothingTimeConstant = smoothingTimeConstant;
 
-        sourceRef.current.connect(analyserRef.current);
         setIsAnalyzing(true);
     }, [smoothingTimeConstant]);
+
+    const handleData = useCallback((data: Blob) => {
+        if (!audioContextRef.current || !analyserRef.current) return;
+
+        data.arrayBuffer().then(buffer => {
+            audioContextRef.current!.decodeAudioData(buffer).then(audioBuffer => {
+                const source = audioContextRef.current!.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(analyserRef.current!);
+                source.start();
+            });
+        });
+    }, []);
 
     const handleStop = useCallback(() => {
         if (silenceTimeoutRef.current) {
@@ -92,6 +97,10 @@ const useAudioAnalyzer = ({
         analyserRef.current = null;
         setIsAnalyzing(false);
     }, []);
+
+    const handleError = useCallback((error: Error) => {
+        handleStop();
+    }, [handleStop]);
 
     useEffect(() => {
         let animationFrameId: number;
@@ -115,10 +124,11 @@ const useAudioAnalyzer = ({
     }, [isAnalyzing, detectSilence]);
 
     return {
-        onData: handleDataAvailable,
+        onData: handleData,
         onStart: handleStart,
         onStop: handleStop,
-        isAnalyzing,
+        onError: handleError,
+        isAnalyzing
     };
 };
 
